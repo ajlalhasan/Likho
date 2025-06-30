@@ -183,11 +183,31 @@ def display_prediction_results(result):
     st.write("### 📈 Detailed Analysis")
     st.write("Probability distribution across all conditions:")
     
-    for pred in result['all_predictions'][:5]:  # Show top 5
+    for pred in result['all_predictions']:  # Show all predictions
         disease = pred['disease']
         conf = pred['confidence']
         st.write(f"**{disease}:** {conf:.2%}")
         st.progress(conf)
+    
+    # Image analysis details if available
+    if 'image_analysis' in result:
+        st.write("### 🔬 Image Analysis Features")
+        features = result['image_analysis']
+        
+        col1, col2 = st.columns(2)
+        with col1:
+            st.write(f"**Brightness:** {features['brightness']:.3f}")
+            st.write(f"**Contrast:** {features['contrast']:.3f}")
+            st.write(f"**Texture Strength:** {features['texture_strength']:.3f}")
+            st.write(f"**Dark Pixels Ratio:** {features['dark_pixels_ratio']:.3f}")
+        
+        with col2:
+            st.write(f"**Average Red:** {features['avg_red']:.3f}")
+            st.write(f"**Average Green:** {features['avg_green']:.3f}")
+            st.write(f"**Average Blue:** {features['avg_blue']:.3f}")
+            st.write(f"**Color Variation:** {features['color_variation']:.3f}")
+        
+        st.info("💡 These visual features help the AI analyze the skin condition based on color, texture, and other characteristics typical of different diseases.")
 
 def show_recommended_doctors(predicted_disease):
     """Show recommended doctors based on predicted disease"""

@@ -33,9 +33,9 @@ This is a comprehensive web-based skin disease detection system built with Strea
 4. **model_utils.py**: Machine learning model utilities and disease classification
 
 ### Disease Classification
-- **Supported Diseases**: 8 classes including Acne, Eczema, Melanoma, Psoriasis, Rosacea, Seborrheic Dermatitis, Basal Cell Carcinoma, and Normal Skin
-- **Model Architecture**: CNN with data augmentation, multiple convolutional blocks, and dropout regularization
-- **Input Processing**: 224x224x3 RGB images with normalization
+- **Supported Diseases**: 5 classes including Actinic Keratosis, Dermatofibroma, Melanoma, Seborrheic Keratosis, and Squamous Cell Carcinoma
+- **Model Architecture**: Enhanced image analysis using visual feature extraction and pattern recognition
+- **Input Processing**: 224x224x3 RGB images with advanced feature analysis including texture, color, and brightness metrics
 
 ### User Management System
 - **User Types**: Regular users and administrators
@@ -113,6 +113,13 @@ This is a comprehensive web-based skin disease detection system built with Strea
 ```
 Changelog:
 - June 30, 2025. Initial setup
+- June 30, 2025. Updated disease classification system to match user's dataset:
+  * Changed from 8 disease classes to 5 specific classes
+  * Implemented enhanced image analysis using visual features
+  * Updated disease classes: Actinic Keratosis, Dermatofibroma, Melanoma, Seborrheic Keratosis, Squamous Cell Carcinoma
+  * Added realistic image feature analysis (brightness, contrast, texture, color variation)
+  * Updated doctor database with specialists for new disease types
+  * Removed TensorFlow dependency for compatibility
 ```
 
 ## User Preferences

@@ -83,10 +83,12 @@ def init_database():
         cursor.execute("SELECT COUNT(*) FROM doctors")
         if cursor.fetchone()[0] == 0:
             sample_doctors = [
-                ("Dr. Sarah Johnson", "Dermatology", "sarah.johnson@hospital.com", "555-0123", "123 Medical Center Dr", 15, "Acne, Eczema, Psoriasis"),
-                ("Dr. Michael Chen", "Dermatology", "michael.chen@clinic.com", "555-0124", "456 Health Plaza", 12, "Skin Cancer, Melanoma, Moles"),
-                ("Dr. Emily Davis", "Cosmetic Dermatology", "emily.davis@skincare.com", "555-0125", "789 Beauty Ave", 8, "Acne, Rosacea, Anti-aging"),
-                ("Dr. Robert Wilson", "Pediatric Dermatology", "robert.wilson@childcare.com", "555-0126", "321 Kids Health St", 10, "Pediatric Skin Conditions, Eczema")
+                ("Dr. Sarah Johnson", "Dermatology & Oncology", "sarah.johnson@hospital.com", "555-0123", "123 Medical Center Dr", 15, "Melanoma, Squamous Cell Carcinoma, Actinic Keratosis"),
+                ("Dr. Michael Chen", "Dermatopathology", "michael.chen@clinic.com", "555-0124", "456 Health Plaza", 12, "Melanoma, Seborrheic Keratosis, Dermatofibroma"),
+                ("Dr. Emily Davis", "Dermatology", "emily.davis@skincare.com", "555-0125", "789 Beauty Ave", 8, "Actinic Keratosis, Seborrheic Keratosis, Dermatofibroma"),
+                ("Dr. Robert Wilson", "Oncology & Dermatology", "robert.wilson@childcare.com", "555-0126", "321 Kids Health St", 10, "Squamous Cell Carcinoma, Melanoma, Actinic Keratosis"),
+                ("Dr. Lisa Martinez", "Mohs Surgery", "lisa.martinez@mohscenter.com", "555-0127", "555 Surgical Suite", 18, "Squamous Cell Carcinoma, Melanoma, Actinic Keratosis"),
+                ("Dr. David Park", "Dermatology", "david.park@dermclinic.com", "555-0128", "888 Skin Care Ave", 7, "Dermatofibroma, Seborrheic Keratosis, Actinic Keratosis")
             ]
             
             for doctor in sample_doctors:

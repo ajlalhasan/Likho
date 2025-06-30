@@ -815,6 +815,7 @@ dependencies = [
     { name = "pillow" },
     { name = "plotly" },
     { name = "scikit-learn" },
+    { name = "scipy" },
     { name = "streamlit" },
     { name = "tensorflow" },
 ]
@@ -827,6 +828,7 @@ requires-dist = [
     { name = "pillow", specifier = ">=11.2.1" },
     { name = "plotly", specifier = ">=6.2.0" },
     { name = "scikit-learn", specifier = ">=1.7.0" },
+    { name = "scipy", specifier = ">=1.16.0" },
     { name = "streamlit", specifier = ">=1.46.1" },
     { name = "tensorflow", specifier = ">=2.14.0" },
 ]
