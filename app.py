@@ -73,6 +73,10 @@ def show_login_page():
                 st.error("Please fill all fields")
 
 def show_main_app():
+    # Initialize navigation state
+    if "current_page" not in st.session_state:
+        st.session_state.current_page = "Disease Detection"
+    
     # Sidebar navigation
     with st.sidebar:
         st.write(f"Welcome, {st.session_state.username}!")
@@ -82,23 +86,42 @@ def show_main_app():
             st.session_state.logged_in = False
             st.session_state.username = ""
             st.session_state.user_type = ""
+            st.session_state.current_page = "Disease Detection"
             st.rerun()
         
         st.divider()
         
-        # Navigation menu
+        # Navigation menu with buttons instead of selectbox
+        st.subheader("Navigation")
+        
+        if st.button("🔬 Disease Detection", use_container_width=True):
+            st.session_state.current_page = "Disease Detection"
+            st.rerun()
+        
         if st.session_state.user_type == "admin":
-            page = st.selectbox(
-                "Navigate to:",
-                ["Disease Detection", "Admin Panel", "User Management", "Doctor Management", "Feedback Management"]
-            )
+            if st.button("👤 Admin Panel", use_container_width=True):
+                st.session_state.current_page = "Admin Panel"
+                st.rerun()
+            
+            if st.button("👥 User Management", use_container_width=True):
+                st.session_state.current_page = "User Management"
+                st.rerun()
+            
+            if st.button("👨‍⚕️ Doctor Management", use_container_width=True):
+                st.session_state.current_page = "Doctor Management"
+                st.rerun()
+            
+            if st.button("💬 Feedback Management", use_container_width=True):
+                st.session_state.current_page = "Feedback Management"
+                st.rerun()
         else:
-            page = st.selectbox(
-                "Navigate to:",
-                ["Disease Detection", "My Profile"]
-            )
+            if st.button("📊 My Profile", use_container_width=True):
+                st.session_state.current_page = "My Profile"
+                st.rerun()
     
-    # Main content area
+    # Main content area based on current page
+    page = st.session_state.current_page
+    
     if page == "Disease Detection":
         show_disease_detection()
     elif page == "Admin Panel" and st.session_state.user_type == "admin":
@@ -116,6 +139,9 @@ def show_main_app():
     elif page == "My Profile":
         from pages.user_dashboard import show_user_dashboard
         show_user_dashboard()
+    else:
+        # Default to disease detection
+        show_disease_detection()
 
 def show_disease_detection():
     from pages.user_dashboard import show_disease_detection_interface
