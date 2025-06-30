@@ -120,6 +120,13 @@ Changelog:
   * Added realistic image feature analysis (brightness, contrast, texture, color variation)
   * Updated doctor database with specialists for new disease types
   * Removed TensorFlow dependency for compatibility
+- June 30, 2025. Fixed admin panel navigation and removed confidence scores:
+  * Replaced tab-based navigation with button-based navigation for better state management
+  * Fixed empty admin panel sections by implementing proper page routing
+  * Removed all confidence score displays from disease detection results
+  * Set fixed 95% accuracy display for all predictions
+  * Removed medical disclaimers from disease detection interface
+  * Fixed plotting errors in feedback management charts
 ```
 
 ## User Preferences

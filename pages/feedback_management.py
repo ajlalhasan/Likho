@@ -155,13 +155,13 @@ def show_feedback_analytics():
             with col1:
                 fig = px.bar(disease_df, x='Disease', y='Avg Rating', 
                            title="Average Rating by Disease Type")
-                fig.update_xaxis(tickangle=45)
+                fig.update_layout(xaxis={'tickangle': 45})
                 st.plotly_chart(fig, use_container_width=True)
             
             with col2:
                 fig = px.bar(disease_df, x='Disease', y='Count', 
                            title="Feedback Count by Disease Type")
-                fig.update_xaxis(tickangle=45)
+                fig.update_layout(xaxis={'tickangle': 45})
                 st.plotly_chart(fig, use_container_width=True)
         
         # Recent trends
