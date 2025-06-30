@@ -1,0 +1,122 @@
+# Skin Disease Detection System
+
+## Overview
+
+This is a comprehensive web-based skin disease detection system built with Streamlit and TensorFlow. The application uses Convolutional Neural Networks (CNN) to classify various skin conditions from uploaded images. It features a dual-user system with regular users who can upload images for diagnosis and admins who manage the system, users, doctors, and feedback.
+
+## System Architecture
+
+### Frontend Architecture
+- **Framework**: Streamlit for web interface
+- **UI Components**: Multi-page application with tabs and forms
+- **Image Processing**: PIL and OpenCV for image enhancement and preprocessing
+- **Visualization**: Plotly for analytics and charts
+
+### Backend Architecture
+- **Application Framework**: Streamlit-based Python application
+- **Authentication**: Custom session-based authentication system
+- **Database Layer**: SQLite with direct SQL queries
+- **Machine Learning**: TensorFlow/Keras CNN model for image classification
+
+### Data Storage
+- **Database**: SQLite (skin_disease_db.sqlite)
+- **Schema**: Users, doctors, predictions, and feedback tables
+- **File Storage**: Local file system for uploaded images
+
+## Key Components
+
+### Core Modules
+
+1. **app.py**: Main application entry point with login/registration flow
+2. **auth.py**: User authentication and authorization functions
+3. **database.py**: Database initialization and connection management
+4. **model_utils.py**: Machine learning model utilities and disease classification
+
+### Disease Classification
+- **Supported Diseases**: 8 classes including Acne, Eczema, Melanoma, Psoriasis, Rosacea, Seborrheic Dermatitis, Basal Cell Carcinoma, and Normal Skin
+- **Model Architecture**: CNN with data augmentation, multiple convolutional blocks, and dropout regularization
+- **Input Processing**: 224x224x3 RGB images with normalization
+
+### User Management System
+- **User Types**: Regular users and administrators
+- **Authentication**: Password hashing with SHA-256
+- **Session Management**: Streamlit session state for user persistence
+
+### Admin Panel Features
+- **User Management**: Add, edit, delete users
+- **Doctor Management**: Maintain doctor database with specializations
+- **Feedback System**: View and analyze user feedback
+- **Analytics**: System statistics and usage metrics
+
+## Data Flow
+
+1. **User Registration/Login**: Credentials validated against SQLite database
+2. **Image Upload**: Users upload skin images through Streamlit interface
+3. **Image Processing**: Images enhanced and preprocessed for model input
+4. **Disease Prediction**: CNN model classifies the skin condition
+5. **Result Storage**: Predictions stored in database with confidence scores
+6. **Feedback Collection**: Users can rate prediction accuracy
+7. **Admin Oversight**: Administrators monitor system usage and manage data
+
+## External Dependencies
+
+### Python Libraries
+- **streamlit**: Web application framework
+- **tensorflow**: Machine learning and CNN model
+- **sqlite3**: Database operations
+- **PIL/Pillow**: Image processing
+- **opencv-python**: Advanced image enhancement
+- **pandas**: Data manipulation and display
+- **plotly**: Interactive visualizations
+- **numpy**: Numerical operations
+
+### Database Schema
+- **users**: User accounts with admin flags
+- **doctors**: Healthcare provider directory
+- **predictions**: Image classification results
+- **feedback**: User rating and comments system
+
+## Deployment Strategy
+
+### Development Environment
+- **Platform**: Replit-compatible Python environment
+- **Database**: SQLite for simplicity and portability
+- **Model Storage**: Local file system (production would use cloud storage)
+
+### Production Considerations
+- **Scalability**: Current architecture suitable for moderate traffic
+- **Database**: SQLite appropriate for small to medium deployments
+- **Model Deployment**: Template model provided; production would use pre-trained weights
+- **Security**: Basic authentication; production would require HTTPS and enhanced security
+
+### File Structure
+```
+/
+├── app.py (main application)
+├── auth.py (authentication)
+├── database.py (database operations)
+├── model_utils.py (ML utilities)
+├── models/
+│   └── skin_disease_model.py (CNN architecture)
+├── pages/ (application pages)
+│   ├── admin_panel.py
+│   ├── doctor_management.py
+│   ├── feedback_management.py
+│   ├── user_dashboard.py
+│   └── user_management.py
+└── utils/
+    └── image_processing.py (image enhancement)
+```
+
+## Changelog
+
+```
+Changelog:
+- June 30, 2025. Initial setup
+```
+
+## User Preferences
+
+```
+Preferred communication style: Simple, everyday language.
+```
