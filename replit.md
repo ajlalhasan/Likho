@@ -127,11 +127,11 @@ Changelog:
   * Set fixed 95% accuracy display for all predictions
   * Removed medical disclaimers from disease detection interface
   * Fixed plotting errors in feedback management charts
-- June 30, 2025. Simplified interface by hiding admin navigation:
-  * Removed all navigation buttons from sidebar (admin panel, doctor management, etc.)
-  * Interface now focuses solely on skin disease detection functionality
-  * Users only see the main disease detection interface with clean, simple design
-  * Admin features still exist in codebase but are not accessible through UI
+- June 30, 2025. Reverted navigation changes:
+  * Restored all navigation buttons in sidebar (admin panel, doctor management, etc.)
+  * Admin users can access all management features through sidebar navigation
+  * Regular users see disease detection and profile options
+  * Full admin functionality is accessible through button-based navigation system
 ```
 
 ## User Preferences
