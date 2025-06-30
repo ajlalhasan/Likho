@@ -77,7 +77,7 @@ def show_main_app():
     if "current_page" not in st.session_state:
         st.session_state.current_page = "Disease Detection"
     
-    # Sidebar navigation
+    # Sidebar navigation - simplified
     with st.sidebar:
         st.write(f"Welcome, {st.session_state.username}!")
         st.write(f"Role: {st.session_state.user_type.title()}")
@@ -88,60 +88,9 @@ def show_main_app():
             st.session_state.user_type = ""
             st.session_state.current_page = "Disease Detection"
             st.rerun()
-        
-        st.divider()
-        
-        # Navigation menu with buttons instead of selectbox
-        st.subheader("Navigation")
-        
-        if st.button("🔬 Disease Detection", use_container_width=True):
-            st.session_state.current_page = "Disease Detection"
-            st.rerun()
-        
-        if st.session_state.user_type == "admin":
-            if st.button("👤 Admin Panel", use_container_width=True):
-                st.session_state.current_page = "Admin Panel"
-                st.rerun()
-            
-            if st.button("👥 User Management", use_container_width=True):
-                st.session_state.current_page = "User Management"
-                st.rerun()
-            
-            if st.button("👨‍⚕️ Doctor Management", use_container_width=True):
-                st.session_state.current_page = "Doctor Management"
-                st.rerun()
-            
-            if st.button("💬 Feedback Management", use_container_width=True):
-                st.session_state.current_page = "Feedback Management"
-                st.rerun()
-        else:
-            if st.button("📊 My Profile", use_container_width=True):
-                st.session_state.current_page = "My Profile"
-                st.rerun()
     
-    # Main content area based on current page
-    page = st.session_state.current_page
-    
-    if page == "Disease Detection":
-        show_disease_detection()
-    elif page == "Admin Panel" and st.session_state.user_type == "admin":
-        from pages.admin_panel import show_admin_panel
-        show_admin_panel()
-    elif page == "User Management" and st.session_state.user_type == "admin":
-        from pages.user_management import show_user_management
-        show_user_management()
-    elif page == "Doctor Management" and st.session_state.user_type == "admin":
-        from pages.doctor_management import show_doctor_management
-        show_doctor_management()
-    elif page == "Feedback Management" and st.session_state.user_type == "admin":
-        from pages.feedback_management import show_feedback_management
-        show_feedback_management()
-    elif page == "My Profile":
-        from pages.user_dashboard import show_user_dashboard
-        show_user_dashboard()
-    else:
-        # Default to disease detection
-        show_disease_detection()
+    # Main content area - always show disease detection
+    show_disease_detection()
 
 def show_disease_detection():
     from pages.user_dashboard import show_disease_detection_interface
