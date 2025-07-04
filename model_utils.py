@@ -4,41 +4,71 @@ import streamlit as st
 import os
 import random
 
-# Disease classes that the model can predict - Updated to match your dataset
+# Disease classes that the model can predict - Updated to match Kaggle dataset
 DISEASE_CLASSES = [
-    "Actinic Keratosis",
-    "Dermatofibroma", 
-    "Melanoma",
-    "Seborrheic Keratosis",
-    "Squamous Cell Carcinoma"
+    "Eczema",
+    "Warts Molluscum and other Viral Infections",
+    "Melanoma", 
+    "Atopic Dermatitis",
+    "Basal Cell Carcinoma (BCC)",
+    "Melanocytic Nevi (NV)",
+    "Benign Keratosis-like Lesions (BKL)",
+    "Psoriasis pictures Lichen Planus and related diseases",
+    "Seborrheic Keratoses and other Benign Tumors",
+    "Tinea Ringworm Candidiasis and other Fungal Infections"
 ]
 
-# Disease information and recommendations - Updated for your dataset
+# Disease information and recommendations - Updated for Kaggle dataset
 DISEASE_INFO = {
-    "Actinic Keratosis": {
-        "description": "Rough, scaly patches on the skin caused by prolonged sun exposure. These are precancerous lesions.",
-        "severity": "Moderate - Precancerous",
+    "Eczema": {
+        "description": "A chronic inflammatory skin condition characterized by red, itchy, and inflamed skin patches.",
+        "severity": "Mild to Moderate - Manageable",
         "specialist": "Dermatology"
     },
-    "Dermatofibroma": {
-        "description": "Small, hard nodules that develop in the skin, typically on the legs. Usually benign but should be monitored.",
-        "severity": "Mild - Usually Benign",
-        "specialist": "Dermatology"
+    "Warts Molluscum and other Viral Infections": {
+        "description": "Skin infections caused by viruses, including common warts and molluscum contagiosum bumps.",
+        "severity": "Mild - Usually Self-limiting",
+        "specialist": "Dermatology/Family Medicine"
     },
     "Melanoma": {
         "description": "The most serious type of skin cancer that develops in melanocytes. Requires immediate medical attention.",
         "severity": "Severe - Requires Immediate Attention",
         "specialist": "Dermatology/Oncology"
     },
-    "Seborrheic Keratosis": {
-        "description": "Non-cancerous skin growths that appear as brown, black, or tan patches with a waxy, warty texture.",
+    "Atopic Dermatitis": {
+        "description": "A chronic inflammatory skin condition often associated with allergies, causing dry, itchy skin.",
+        "severity": "Mild to Moderate - Chronic condition",
+        "specialist": "Dermatology/Allergy"
+    },
+    "Basal Cell Carcinoma (BCC)": {
+        "description": "The most common type of skin cancer, usually slow-growing and rarely spreads to other parts of the body.",
+        "severity": "Moderate - Requires Treatment",
+        "specialist": "Dermatology/Oncology"
+    },
+    "Melanocytic Nevi (NV)": {
+        "description": "Common moles or nevi that are usually benign but should be monitored for changes.",
+        "severity": "Mild - Usually Benign",
+        "specialist": "Dermatology"
+    },
+    "Benign Keratosis-like Lesions (BKL)": {
+        "description": "Non-cancerous skin growths that may appear raised, scaly, or waxy.",
         "severity": "Mild - Benign",
         "specialist": "Dermatology"
     },
-    "Squamous Cell Carcinoma": {
-        "description": "A type of skin cancer that begins in the squamous cells. Can spread if left untreated.",
-        "severity": "Moderate to Severe - Requires Medical Attention",
-        "specialist": "Dermatology/Oncology"
+    "Psoriasis pictures Lichen Planus and related diseases": {
+        "description": "Chronic autoimmune skin conditions causing red, scaly patches and inflammatory lesions.",
+        "severity": "Moderate - Chronic condition",
+        "specialist": "Dermatology/Rheumatology"
+    },
+    "Seborrheic Keratoses and other Benign Tumors": {
+        "description": "Non-cancerous skin growths that appear as brown, black, or tan patches with a waxy texture.",
+        "severity": "Mild - Benign",
+        "specialist": "Dermatology"
+    },
+    "Tinea Ringworm Candidiasis and other Fungal Infections": {
+        "description": "Fungal skin infections causing circular, scaly patches or other inflammatory symptoms.",
+        "severity": "Mild to Moderate - Treatable",
+        "specialist": "Dermatology/Infectious Disease"
     }
 }
 
@@ -176,30 +206,50 @@ def analyze_image_features(processed_image):
 
 def calculate_disease_probabilities(features):
     """Calculate disease probabilities based on image features"""
-    # Initialize base probabilities
-    base_probs = np.array([0.2, 0.2, 0.2, 0.2, 0.2])  # Equal starting probabilities
+    # Initialize base probabilities for 10 disease classes
+    base_probs = np.array([0.1] * 10)  # Equal starting probabilities
     
     # Adjust probabilities based on visual features
     
-    # Melanoma indicators: darker regions, irregular colors
+    # Eczema: red, inflamed appearance
+    if features['avg_red'] > 0.6 and features['color_variation'] > 0.4:
+        base_probs[0] += 0.25  # Eczema
+    
+    # Viral infections (warts, molluscum): often raised, textured
+    if features['texture_strength'] > 0.5 and features['contrast'] > 0.4:
+        base_probs[1] += 0.2  # Warts Molluscum and other Viral Infections
+    
+    # Melanoma: darker regions, irregular colors
     if features['dark_pixels_ratio'] > 0.4 and features['color_variation'] > 0.5:
         base_probs[2] += 0.3  # Melanoma
     
-    # Actinic Keratosis: often rough texture, sun-damaged appearance
-    if features['texture_strength'] > 0.6 and features['brightness'] > 0.6:
-        base_probs[0] += 0.25  # Actinic Keratosis
+    # Atopic Dermatitis: dry, red, inflamed
+    if features['avg_red'] > 0.5 and features['brightness'] < 0.5:
+        base_probs[3] += 0.2  # Atopic Dermatitis
     
-    # Seborrheic Keratosis: often darker, well-defined
-    if features['dark_pixels_ratio'] > 0.3 and features['contrast'] > 0.5:
-        base_probs[3] += 0.2  # Seborrheic Keratosis
+    # Basal Cell Carcinoma: often pearly, translucent
+    if features['brightness'] > 0.6 and features['contrast'] > 0.5:
+        base_probs[4] += 0.25  # Basal Cell Carcinoma (BCC)
     
-    # Squamous Cell Carcinoma: often red/pink, irregular
-    if features['avg_red'] > features['avg_green'] and features['color_variation'] > 0.4:
-        base_probs[4] += 0.25  # Squamous Cell Carcinoma
+    # Melanocytic Nevi: usually well-defined, uniform
+    if features['contrast'] > 0.4 and features['color_variation'] < 0.4:
+        base_probs[5] += 0.15  # Melanocytic Nevi (NV)
     
-    # Dermatofibroma: typically smaller, well-defined
-    if features['contrast'] > 0.4 and features['texture_strength'] < 0.5:
-        base_probs[1] += 0.15  # Dermatofibroma
+    # Benign Keratosis: often rough, scaly texture
+    if features['texture_strength'] > 0.6 and features['dark_pixels_ratio'] > 0.3:
+        base_probs[6] += 0.2  # Benign Keratosis-like Lesions (BKL)
+    
+    # Psoriasis/Lichen Planus: scaly, red patches
+    if features['avg_red'] > 0.6 and features['texture_strength'] > 0.5:
+        base_probs[7] += 0.25  # Psoriasis pictures Lichen Planus and related diseases
+    
+    # Seborrheic Keratoses: darker, waxy appearance
+    if features['dark_pixels_ratio'] > 0.5 and features['texture_strength'] > 0.4:
+        base_probs[8] += 0.2  # Seborrheic Keratoses and other Benign Tumors
+    
+    # Fungal infections: circular, scaly patterns
+    if features['texture_strength'] > 0.5 and features['color_variation'] > 0.3:
+        base_probs[9] += 0.2  # Tinea Ringworm Candidiasis and other Fungal Infections
     
     # Add some randomness for realism
     random_factor = np.random.uniform(0.8, 1.2, len(DISEASE_CLASSES))
@@ -221,19 +271,19 @@ def get_disease_info(disease_name):
 def get_treatment_recommendations(disease_name):
     """Get treatment recommendations for a disease"""
     recommendations = {
-        "Actinic Keratosis": [
-            "⚠️ IMPORTANT: Consult a dermatologist immediately for evaluation",
-            "Avoid prolonged sun exposure and use high SPF sunscreen (30+)",
-            "Consider protective clothing and wide-brimmed hats when outdoors",
-            "Treatment options may include cryotherapy, topical medications, or photodynamic therapy",
-            "Regular skin monitoring and follow-up appointments are essential"
+        "Eczema": [
+            "Keep skin moisturized with gentle, fragrance-free moisturizers",
+            "Avoid known triggers such as harsh soaps, allergens, and stress",
+            "Use mild, hypoallergenic skincare products",
+            "Consider topical corticosteroids as prescribed by a dermatologist",
+            "Consult a dermatologist for persistent or severe symptoms"
         ],
-        "Dermatofibroma": [
-            "Usually no treatment is required as these are typically benign",
-            "Monitor for any changes in size, color, or texture",
-            "Avoid picking or scratching the lesion",
-            "Consult a dermatologist if the lesion becomes painful or changes appearance",
-            "Consider removal if the lesion causes discomfort or cosmetic concerns"
+        "Warts Molluscum and other Viral Infections": [
+            "Most viral skin infections resolve on their own over time",
+            "Avoid picking, scratching, or touching the affected areas",
+            "Keep the area clean and dry",
+            "Consult a dermatologist for treatment options if needed",
+            "Practice good hygiene to prevent spreading to others"
         ],
         "Melanoma": [
             "🚨 URGENT: Seek immediate medical attention from a dermatologist or oncologist",
@@ -242,19 +292,54 @@ def get_treatment_recommendations(disease_name):
             "Perform regular skin self-examinations using the ABCDE method",
             "Follow all medical recommendations and attend regular follow-up appointments"
         ],
-        "Seborrheic Keratosis": [
+        "Atopic Dermatitis": [
+            "Maintain good skin hydration with regular moisturizing",
+            "Identify and avoid personal triggers (foods, allergens, stress)",
+            "Use gentle, fragrance-free skincare products",
+            "Consider seeing an allergist for comprehensive evaluation",
+            "Follow prescribed treatment plans from your dermatologist"
+        ],
+        "Basal Cell Carcinoma (BCC)": [
+            "⚠️ IMPORTANT: Consult a dermatologist promptly for evaluation and treatment",
+            "Early treatment is highly effective for this type of skin cancer",
+            "Protect skin from further sun damage with SPF 30+ sunscreen",
+            "Wear protective clothing and seek shade during peak sun hours",
+            "Schedule regular skin screenings and follow-up appointments"
+        ],
+        "Melanocytic Nevi (NV)": [
+            "Monitor moles regularly for any changes in size, color, or shape",
+            "Use the ABCDE method for self-examination (Asymmetry, Border, Color, Diameter, Evolving)",
+            "Protect from sun exposure to prevent changes",
+            "Consult a dermatologist for annual skin checks",
+            "Seek immediate evaluation if any mole changes appearance"
+        ],
+        "Benign Keratosis-like Lesions (BKL)": [
+            "Usually no treatment is required as these are benign",
+            "Monitor for any changes in appearance or texture",
+            "Consult a dermatologist to confirm the diagnosis",
+            "Removal can be considered for cosmetic reasons or if irritated",
+            "Use gentle skincare to avoid irritation"
+        ],
+        "Psoriasis pictures Lichen Planus and related diseases": [
+            "Work with a dermatologist to develop a comprehensive treatment plan",
+            "Consider topical treatments, light therapy, or systemic medications",
+            "Manage stress levels as stress can worsen symptoms",
+            "Maintain good skin care with gentle, moisturizing products",
+            "Join support groups for chronic skin condition management"
+        ],
+        "Seborrheic Keratoses and other Benign Tumors": [
             "Usually no treatment is needed as these are benign growths",
             "Monitor for any sudden changes in appearance",
             "Consult a dermatologist to confirm diagnosis",
             "Removal can be considered for cosmetic reasons or if irritated",
             "Use gentle skincare products to avoid irritation"
         ],
-        "Squamous Cell Carcinoma": [
-            "⚠️ URGENT: Consult a dermatologist or oncologist immediately",
-            "Early treatment is important to prevent spread",
-            "Protect skin from UV radiation with sunscreen and protective clothing",
-            "Treatment typically involves surgical removal",
-            "Regular follow-up care and skin monitoring are essential"
+        "Tinea Ringworm Candidiasis and other Fungal Infections": [
+            "Keep affected areas clean and dry",
+            "Use antifungal medications as prescribed by a healthcare provider",
+            "Avoid sharing personal items like towels, clothing, or shoes",
+            "Maintain good hygiene and change clothes frequently",
+            "Consult a dermatologist for persistent or severe infections"
         ]
     }
     

@@ -33,7 +33,7 @@ This is a comprehensive web-based skin disease detection system built with Strea
 4. **model_utils.py**: Machine learning model utilities and disease classification
 
 ### Disease Classification
-- **Supported Diseases**: 5 classes including Actinic Keratosis, Dermatofibroma, Melanoma, Seborrheic Keratosis, and Squamous Cell Carcinoma
+- **Supported Diseases**: 10 classes from Kaggle dataset including Eczema, Warts/Molluscum/Viral Infections, Melanoma, Atopic Dermatitis, Basal Cell Carcinoma, Melanocytic Nevi, Benign Keratosis-like Lesions, Psoriasis/Lichen Planus, Seborrheic Keratoses, and Fungal Infections
 - **Model Architecture**: Enhanced image analysis using visual feature extraction and pattern recognition
 - **Input Processing**: 224x224x3 RGB images with advanced feature analysis including texture, color, and brightness metrics
 
@@ -132,6 +132,12 @@ Changelog:
   * Admin users can access all management features through sidebar navigation
   * Regular users see disease detection and profile options
   * Full admin functionality is accessible through button-based navigation system
+- July 4, 2025. Updated disease classification for Kaggle dataset:
+  * Expanded from 5 to 10 disease classes matching "ismailpromus/skin-diseases-image-dataset"
+  * New diseases: Eczema, Warts/Molluscum/Viral Infections, Atopic Dermatitis, BCC, Melanocytic Nevi, BKL, Psoriasis/Lichen Planus, Seborrheic Keratoses, Fungal Infections
+  * Updated disease information, treatment recommendations, and specialist database
+  * Added kagglehub integration for dataset access
+  * Enhanced prediction algorithm to handle 10 classes with specialized feature analysis
 ```
 
 ## User Preferences
